@@ -29,7 +29,7 @@ module LanguageList
       !@iso_639_1.nil?
     end
 
-    [:ancient, :constructed, :extinct, :historical, :living, :special].each do |type|
+    [:ancient, :constructed, :extinct, :historical, :living, :special, :compound].each do |type|
       define_method("#{type.to_s}?") do
         @type == type
       end
@@ -57,7 +57,7 @@ module LanguageList
   end
 
   ALL_LANGUAGES = begin
-     Marshal.load(File.read(File.expand_path('../../data/dump', __FILE__)))
+    Marshal.load(File.read(File.expand_path('../../data/dump', __FILE__)))
   rescue => e
     warn "Reverting to hash load: #{e.message}"
     yaml_data = YAML.load_file(File.expand_path(File.join(File.dirname(__FILE__),'..', 'data', 'languages.yml')))
@@ -66,6 +66,7 @@ module LanguageList
   ISO_639_1 = ALL_LANGUAGES.select(&:iso_639_1?)
   LIVING_LANGUAGES = ALL_LANGUAGES.select(&:living?)
   COMMON_LANGUAGES = ALL_LANGUAGES.select(&:common?)
+  COMPOUND_LANGUAGES = ALL_LANGUAGES.select(&:compound?)
 
   BY_NAME      = {}
   BY_ISO_639_1 = {}
