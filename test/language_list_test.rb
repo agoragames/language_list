@@ -3,7 +3,7 @@ require 'language_list'
 
 class LanguageListTest < Minitest::Test
   def test_all_languages
-    assert_equal 7707, LanguageList::ALL_LANGUAGES.length
+    assert_equal 7713, LanguageList::ALL_LANGUAGES.length
   end
 
   def test_common_languages
@@ -14,8 +14,12 @@ class LanguageListTest < Minitest::Test
     assert_equal 6986, LanguageList::LIVING_LANGUAGES.length
   end
 
+  def test_compound_languages
+    assert_equal 6, LanguageList::COMPOUND_LANGUAGES.length
+  end
+
   def test_iso_iso_639_1_languages
-    assert_equal 184, LanguageList::ISO_639_1.length
+    assert_equal 190, LanguageList::ISO_639_1.length
   end
 
   def test_find_by_iso_639_1
@@ -75,5 +79,10 @@ class LanguageListTest < Minitest::Test
   def test_common_name_when_not_present
     english = LanguageList::LanguageInfo.find('en')
     assert_equal english.name, english.common_name
+  end
+
+  def test_find_compound
+    belgian_legal = LanguageList::LanguageInfo.find_by_name('Belgian Legal')
+    assert_equal 'en+fr+de', belgian_legal.iso_639_1
   end
 end
